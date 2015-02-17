@@ -19,7 +19,7 @@
           update_grid(i)
         end
       end
-      fire(starting_direction)
+      fire
     end
 
     def set_grid_size(input_first_line)
@@ -35,10 +35,10 @@
       arr = split_input(line)
       x = arr[0].to_i
       y = arr[1].to_i
-      starting_direction = arr[2]
+      self.starting_direction = arr[2]
       update_grid(line)
       set_distance_travel
-      self.player_position = PlayerPosition.new(x, y, starting_direction)
+      self.player_position = PlayerPosition.new(x, y, self.starting_direction)
     end
 
     def update_grid(line)
@@ -49,8 +49,8 @@
       self.distance_traveled = 0
     end
 
-    def fire(direction)
-      move_direction(direction)
+    def fire
+      # move_direction(self.starting_direction)
     end
 
     def exit_condition(player_position)
@@ -125,6 +125,5 @@
         self.distance_traveled += 1
       end
     end
-
 
   end

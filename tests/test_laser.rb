@@ -99,10 +99,10 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     assert_equal 4, laser_maze.move_direction(Laser::NORTH)
   end
 
-  def test_fire_function_when_starting_direction_north
+  def test_starting_direction
     lines = ["5 6", "2 1 N", "3 4 /", "3 0 /", "1 2 \\", "3 2 \\", "4 3 \\"]
     laser_maze = Laser.new(lines)
-    assert_equal 4, laser_maze.fire(Laser::NORTH)
+    assert_equal 'N', laser_maze.starting_direction
   end
 
 end
