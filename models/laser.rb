@@ -7,7 +7,7 @@
     MIRROR_FORWARD = '/'
     MIRROR_BACK = '\\'
 
-    attr_accessor :grid, :starting_direction, :player_position, :distance_traveled
+    attr_accessor :grid, :starting_direction, :player_position, :distance_traveled, :player_previous_position
 
     def initialize(lines = nil)
       return if lines.nil?
@@ -21,9 +21,8 @@
       end
     end
 
-
     def fire
-      move_direction(self.starting_direction) if (exit_condition(player_position))
+      move_direction(self.starting_direction)
     end
 
     def is_mirror?(str)
@@ -58,12 +57,9 @@
       while(y > 0 && !is_mirror?(grid.double_array[x][y])) do
         y -= 1
         self.distance_traveled += 1
+
       end
-      if(grid.double_array[x][y] == MIRROR_BACK)
-        move_direction(EAST)
-      elsif(grid.double_array[x][y] == MIRROR_FORWARD)
-        move_direction(WEST)
-      end
+      mirror_condition(x, y, SOUTH)
     end
 
     def move_north(x, y)
@@ -71,11 +67,7 @@
         y += 1
         self.distance_traveled += 1
       end
-      if(grid.double_array[x][y] == MIRROR_FORWARD)
-        move_direction(EAST)
-      elsif(grid.double_array[x][y] == MIRROR_BACK)
-        move_direction(WEST)
-      end
+      mirror_condition(x, y, NORTH)
     end
 
     def move_west(x, y)
@@ -83,23 +75,32 @@
         x -= 1
         self.distance_traveled += 1
       end
-      if(grid.double_array[x][y] == MIRROR_BACK)
-        move_direction(NORTH)
-      elsif(grid.double_array[x][y] == MIRROR_FORWARD)
-        move_direction(SOUTH)
-      end
+      mirror_condition(x, y, WEST)
     end
 
     def move_east(x, y)
-      while(x < (grid.cols - 1) && !is_mirror?(grid.double_array[x][y])) do
+      while(x < (grid.cols - 1) && !is_mirror?(grid.value(x,y))) do
         x += 1
         self.distance_traveled += 1
       end
-      if(grid.double_array[x][y] == MIRROR_FORWARD)
-        move_direction(NORTH)
-      elsif(grid.double_array[x][y] == MIRROR_BACK)
-        move_direction(SOUTH)
+      mirror_condition(x, y, EAST)
+    end
+
+    def mirror_condition(x, y, direction)
+      if is_mirror?(grid.value(x,y))
+        move_direction(direction_logic(grid.value(x,y), direction))
       end
+    end
+
+    def direction_logic(str, direction)
+      return EAST if(str == MIRROR_BACK && direction == SOUTH)
+      return SOUTH if(str == MIRROR_BACK && direction == EAST)
+      return WEST if(str == MIRROR_BACK && direction == NORTH)
+      return NORTH if(str == MIRROR_BACK && direction == WEST)
+      return EAST if(str == MIRROR_FORWARD && direction == NORTH)
+      return WEST if(str == MIRROR_FORWARD && direction == SOUTH)
+      return SOUTH if(str == MIRROR_FORWARD && direction == WEST)
+      return NORTH if(str == MIRROR_FORWARD && direction == EAST)
     end
 
     def set_grid_size(input_first_line)
@@ -142,5 +143,10 @@
 
     def is_loop?(x, y, direction)
       grid.double_array[x][y] == direction
+    end
+
+    def update_player_position(x, y)
+      player_position.x = x
+      player_position.y = y
     end
   end
