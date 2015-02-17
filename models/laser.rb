@@ -27,7 +27,6 @@
 
     def fire
       move_direction(player_starting_position.x, player_starting_position.y, self.starting_direction)
-      puts player_position
     end
 
     def is_mirror?(str)
@@ -53,41 +52,58 @@
           move_west(x, y)
         else
       end
-      distance_traveled
     end
     private
 
     def move_south(x, y)
-      while(y > 0 && !is_mirror?(grid.value(x, y))) do
+      while(is_wall?(x, y, SOUTH) && !is_mirror?(grid.value(x, y))) do
         grid.update_cell(x, y, SOUTH)
         y -= 1
-        self.distance_traveled += 1
+        increase_distance
       end
       mirror_condition(x, y, SOUTH)
     end
 
     def move_north(x, y)
-      while(y < (grid.rows - 1) && !is_mirror?(grid.value(x, y))) do
+      while(is_wall?(x, y, NORTH)&& !is_mirror?(grid.value(x, y))) do
         y += 1
-        self.distance_traveled += 1
+        increase_distance
       end
       mirror_condition(x, y, NORTH)
     end
 
     def move_west(x, y)
-      while(x > 0 && !is_mirror?(grid.value(x, y))) do
+      while(is_wall?(x, y, WEST) && !is_mirror?(grid.value(x, y))) do
         x -= 1
-        self.distance_traveled += 1
+        increase_distance
       end
       mirror_condition(x, y, WEST)
     end
 
     def move_east(x, y)
-      while(x < (grid.cols - 1) && !is_mirror?(grid.value(x,y))) do
+      while( is_wall?(x, y, EAST) && !is_mirror?(grid.value(x,y))) do
         x += 1
-        self.distance_traveled += 1
+        increase_distance
       end
       mirror_condition(x, y, EAST)
+    end
+
+    def is_wall?(x, y, direction)
+      case direction
+        when SOUTH
+          y > 0
+        when NORTH
+          y < (grid.rows - 1)
+        when EAST
+          x < (grid.cols - 1)
+        when WEST
+          x > 0
+        else
+      end
+    end
+
+    def increase_distance
+      self.distance_traveled += 1
     end
 
     def mirror_condition(x, y, direction)
@@ -135,16 +151,14 @@
       self.distance_traveled = 0
     end
 
-    def exit_condition(player_position)
+    def exit_condition(x, y)
       x = player_position.x
       y = player_position.y
       direction = player_position.direction
       is_wall?(x, y) || is_loop?(x, y, direction)
+
     end
 
-    def is_wall?(x, y)
-      x == 0 || y == 0 || x == grid.cols || y == grid.rows
-    end
 
     def is_loop?(x, y, direction)
       grid.double_array[x][y] == direction
