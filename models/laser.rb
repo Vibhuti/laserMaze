@@ -7,7 +7,6 @@
     MIRROR_FORWARD = '/'
     MIRROR_BACK = '\\'
 
-
     attr_accessor :grid, :starting_direction, :player_position, :distance_traveled
 
     def initialize(lines = nil)
@@ -20,7 +19,7 @@
           update_grid(i)
         end
       end
-      fire(player_position)
+      fire(starting_direction)
     end
 
     def set_grid_size(input_first_line)
@@ -31,7 +30,6 @@
     def split_input(string_array)
       string_array.split(' ');
     end
-
 
     def set_player_starting_position(line)
       arr = split_input(line)
@@ -51,10 +49,9 @@
       self.distance_traveled = 0
     end
 
-    def fire(player_position)
-      distance_traveled if (exit_condition(player_position))
+    def fire(direction)
+      move_direction(direction)
     end
-
 
     def exit_condition(player_position)
       x = player_position.x
