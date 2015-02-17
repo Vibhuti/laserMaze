@@ -101,6 +101,7 @@
       while(moving_in_south(x, y)) do
         y -= 1
         self.distance_traveled += 1
+        self.grid.double_array[x][y] = SOUTH
       end
     end
 
@@ -108,6 +109,7 @@
       while(y < (grid.rows - 1) && not_mirror?(grid.double_array[x][y])) do
         y += 1
         self.distance_traveled += 1
+        self.grid.double_array[x][y] = NORTH
       end
     end
 
@@ -115,6 +117,7 @@
       while(x > 0 && not_mirror?(grid.double_array[x][y])) do
         x -= 1
         self.distance_traveled += 1
+        self.grid.double_array[x][y] = WEST
       end
     end
 
@@ -122,6 +125,7 @@
       while(x < (grid.cols - 1) && not_mirror?(grid.double_array[x][y])) do
         x += 1
         self.distance_traveled += 1
+        self.grid.double_array[x][y] = EAST
       end
     end
 
