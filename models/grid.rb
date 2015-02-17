@@ -14,8 +14,11 @@ class Grid
     "Grid columns= #{cols} and grid rows = #{rows}\n double array: #{double_array}"
   end
 
-
   def value(x, y)
     double_array[x][y]
+  end
+
+  def update_cell(x, y, direction)
+    double_array[x][y] = direction
   end
 end

@@ -7,9 +7,13 @@
     MIRROR_FORWARD = '/'
     MIRROR_BACK = '\\'
 
-    attr_accessor :grid, :starting_direction, :player_position, :distance_traveled, :player_previous_position
+    attr_accessor :grid, :player_position, :distance_traveled, :player_starting_position, :starting_direction
 
     def initialize(lines = nil)
+      set_inputs(lines)
+    end
+
+    def set_inputs(lines)
       return if lines.nil?
       set_grid_size(lines[0])
       set_player_starting_position(lines[1])
@@ -22,7 +26,8 @@
     end
 
     def fire
-      move_direction(self.starting_direction)
+      move_direction(player_starting_position.x, player_starting_position.y, self.starting_direction)
+      puts player_position
     end
 
     def is_mirror?(str)
@@ -33,10 +38,10 @@
       "#{grid} and #{player_position} \n"
     end
 
-    def move_direction(direction)
+    def move_direction(x, y, direction)
+      # return -1 if is_loop?(x, y, direction)
       x = player_position.x
-      y = player_position.y
-
+       y = player_position.y
       case direction
         when SOUTH
           move_south(x, y)
@@ -50,20 +55,19 @@
       end
       distance_traveled
     end
-
     private
 
     def move_south(x, y)
-      while(y > 0 && !is_mirror?(grid.double_array[x][y])) do
+      while(y > 0 && !is_mirror?(grid.value(x, y))) do
+        grid.update_cell(x, y, SOUTH)
         y -= 1
         self.distance_traveled += 1
-
       end
       mirror_condition(x, y, SOUTH)
     end
 
     def move_north(x, y)
-      while(y < (grid.rows - 1) && !is_mirror?(grid.double_array[x][y])) do
+      while(y < (grid.rows - 1) && !is_mirror?(grid.value(x, y))) do
         y += 1
         self.distance_traveled += 1
       end
@@ -71,7 +75,7 @@
     end
 
     def move_west(x, y)
-      while(x > 0 && !is_mirror?(grid.double_array[x][y])) do
+      while(x > 0 && !is_mirror?(grid.value(x, y))) do
         x -= 1
         self.distance_traveled += 1
       end
@@ -88,7 +92,7 @@
 
     def mirror_condition(x, y, direction)
       if is_mirror?(grid.value(x,y))
-        move_direction(direction_logic(grid.value(x,y), direction))
+        move_direction(x, y, direction_logic(grid.value(x,y), direction))
       end
     end
 
@@ -116,10 +120,11 @@
       arr = split_input(line)
       x = arr[0].to_i
       y = arr[1].to_i
-      self.starting_direction = arr[2]
       update_grid(line)
       set_distance_travel
-      self.player_position = PlayerPosition.new(x, y, self.starting_direction)
+      self.player_starting_position = PlayerPosition.new(x, y, arr[2])
+      self.player_position = player_starting_position
+      self.starting_direction = self.player_position.direction
     end
 
     def update_grid(line)

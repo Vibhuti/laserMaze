@@ -143,7 +143,7 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     assert_equal true, laser_maze.is_mirror?(Laser::MIRROR_BACK)
   end
 
-  def test_back_slash_move_south_to_east
+  def test_back_slash_move_west_to_east
     lines = ["5 6", "1 4 S", "1 2 \\"]
     laser_maze = Laser.new(lines)
     laser_maze.fire
@@ -192,13 +192,12 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     assert_equal 5, laser_maze.distance_traveled
   end
 
-  def test_back_slash_move_west_to_east
+  def test_back_slash_move_north_to_east
     lines = ["5 6", "3 0 N", "3 2 /"]
     laser_maze = Laser.new(lines)
     laser_maze.fire
     assert_equal 3, laser_maze.distance_traveled
   end
-
 
   # def test_full
   #   laser_maze = Laser.new(LINES)
