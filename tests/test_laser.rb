@@ -10,6 +10,7 @@ class TestLaserMaze < MiniTest::Unit::TestCase
   def setup
   end
 
+  # Tests for initial setup before fire the event
   def test_grid_size
     laser_maze = Laser.new(Lines)
     assert_equal 5,  laser_maze.grid.cols
@@ -27,8 +28,9 @@ class TestLaserMaze < MiniTest::Unit::TestCase
   end
 
   def test_distance_travel_zero_when_player_starts
-    laser_maze = Laser.new(Lines)
-    assert_equal 0,  laser_maze.distance_traveled
+    lines = ["5 6", "1 4 S"]
+    laser_maze = Laser.new(lines)
+    assert_equal 0, laser_maze.distance_traveled
   end
 
   def test_other_inputs_and_grid_values
@@ -43,66 +45,70 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     assert_equal 4,  laser_maze.player_position.y
   end
 
+  def test_starting_direction
+     lines = ["5 6", "2 1 N", "3 4 /", "3 0 /", "1 2 \\", "3 2 \\", "4 3 \\"]
+     laser_maze = Laser.new(lines)
+     laser_maze.fire
+     assert_equal 'N', laser_maze.starting_direction
+  end
+
+    # Tests for boundary condition and wall hit conditions
+
   def test_exit_condition
     laser_maze = Laser.new(Lines)
      laser_maze.player_position.x = 0
+    laser_maze.fire
     assert_equal true,  laser_maze.exit_condition( laser_maze.player_position)
   end
 
-  def test_not_move_South
-    laser_maze = Laser.new(Lines)
+  def test_south_wall_hit_condition
+    lines = ["5 6", "4 1 S"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 1,  laser_maze.distance_traveled
+  end
+
+  def test_north_wall_hit_condition
+    lines = ["5 6", "4 5 N"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
     assert_equal 0,  laser_maze.distance_traveled
   end
 
-  def test_distance_traveled_should_be_zero
-    laser_maze = Laser.new(Lines)
-    assert_equal 0, laser_maze.distance_traveled
+  def test_east_wall_hit_condition
+    lines = ["5 6", "1 4 E"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 3, laser_maze.distance_traveled
   end
 
-  def test_move_east
-    laser_maze = Laser.new(Lines)
-    assert_equal 2, laser_maze.move_direction(Laser::EAST)
-  end
-
-  def test_move_west
-    laser_maze = Laser.new(Lines)
-    assert_equal 1, laser_maze.move_direction(Laser::WEST)
-  end
-
-  def test_move_south_when_wall_hit
+  def test_move_south_wall_hit_condition
     lines = ["5 6", "1 1 S"]
     laser_maze = Laser.new(lines)
-    assert_equal 1, laser_maze.move_direction(Laser::SOUTH)
+    laser_maze.fire
+    assert_equal 1, laser_maze.distance_traveled
   end
 
   def test_move_east_for_boundary_condition
-    lines = ["5 6", "3 1 E"]
+    lines = ["5 6", "4 3 E"]
     laser_maze = Laser.new(lines)
-    assert_equal 1, laser_maze.move_direction(Laser::EAST)
+    laser_maze.fire
+    assert_equal 0, laser_maze.distance_traveled
+  end
+
+  def test_move_west_boundary_condition
+    lines = ["5 6", "0 4 W"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 0, laser_maze.distance_traveled
   end
 
   def test_move_south_for_boundary_condition
     lines = ["5 6", "2 0 S"]
     laser_maze = Laser.new(lines)
-    assert_equal 0, laser_maze.move_direction(Laser::SOUTH)
+    laser_maze.fire
+    assert_equal 0, laser_maze.distance_traveled
   end
-
-  def test_move_west_for_boundary_condition
-    lines = ["5 6", "4 1 W"]
-    laser_maze = Laser.new(lines)
-    assert_equal 4, laser_maze.move_direction(Laser::WEST)
-  end
-
-  def test_move_north_for_boundary_condition
-    lines = ["5 6", "2 1 N"]
-    laser_maze = Laser.new(lines)
-    assert_equal 4, laser_maze.move_direction(Laser::NORTH)
-  end
-
-  def test_starting_direction
-    lines = ["5 6", "2 1 N", "3 4 /", "3 0 /", "1 2 \\", "3 2 \\", "4 3 \\"]
-    laser_maze = Laser.new(lines)
-    assert_equal 'N', laser_maze.starting_direction
-  end
+  
 
 end

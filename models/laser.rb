@@ -19,7 +19,6 @@
           update_grid(i)
         end
       end
-      fire
     end
 
     def set_grid_size(input_first_line)
@@ -50,7 +49,7 @@
     end
 
     def fire
-      # move_direction(self.starting_direction)
+      move_direction(self.starting_direction)
     end
 
     def exit_condition(player_position)
