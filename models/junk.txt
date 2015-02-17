@@ -1,0 +1,82 @@
+
+
+    # def move
+    #   x = self.player_position.x
+    #   y = self.player_position.y
+    #
+    #   while(y > 0 && not_mirror?(self.grid.double_array[x][y])) do
+    #
+    #     y -= 1
+    #     self.distance_traveled += 1
+    #   end
+    #     self.distance_traveled
+    # end
+    #
+
+
+    # def matrix_traverse(arr)
+    #   self.grid.double_array.each_with_index do |x, xi|
+    #     x.each_with_index do |y, yi|
+    #         puts "element [#{xi}, #{yi}] is #{y}"
+    #     end
+    #   end
+    # end
+
+
+    # def getCoordinates(x, y, direction)
+    #   coordinates = Array.new
+    #
+    #   if(self.grid.double_array[x][y] != MIRROR_FORWARD || self.grid.double_array[x][y] != MIRROR_BACK )
+    #     if direction == SOUTH
+    #       while(y >= 0) do
+    #         puts x
+    #         puts y
+    #         coordinates.push([x, y])
+    #         p coordinates
+    #         y -= 1
+    #       end
+    #     elsif direction == NORTH
+    #       while(y <= self.grid.rows) do
+    #         coordinates.push([x, y])
+    #         y += 1
+    #       end
+    #     elsif direction == WEST
+    #       while(y >= 0) do
+    #         coordinates.push([x, y])
+    #         x -= 1
+    #       end
+    #     elsif direction == EAST
+    #       while(y <= self.grid.cols) do
+    #         coordinates.push([x, y])
+    #         x += 1
+    #       end
+    #     end
+    #   end
+    #    coordinates
+    # end
+
+
+
+  # def test_distance_travel_when_wall_is_hit
+  #   laser_maze = Laser.new(Lines)
+  #    laser_maze.fire( laser_maze.player_position)
+  #   assert_equal 2, laser_maze.distance_traveled
+  # end
+
+  # def test_move_south_until_mirror
+  #   laser_maze = Laser.new(Lines)
+  #   assert_equal 2,  laser_maze.move_south
+  # end
+
+
+    def direction_logic(str)
+      direction = player_previous_position.direction
+      return 'E' if(str == '\\' && direction == 'S')
+      return 'S' if(str == '\\' && direction == 'E')
+      return 'W' if(str == '\\' && direction == 'N')
+      return 'N' if(str == '\\' && direction == 'W')
+      return 'E' if(str == '/' && direction == 'N')
+      return 'W' if(str == '/' && direction == 'S')
+      return 'S' if(str == '/' && direction == 'W')
+      return 'N' if(str == '/' && direction == 'E')
+    end
