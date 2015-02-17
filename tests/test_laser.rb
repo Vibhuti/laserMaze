@@ -54,13 +54,6 @@ class TestLaserMaze < MiniTest::Unit::TestCase
 
     # Tests for boundary condition and wall hit conditions
 
-  def test_exit_condition
-    laser_maze = Laser.new(LINES)
-     laser_maze.player_position.x = 0
-    laser_maze.fire
-    assert_equal true,  laser_maze.exit_condition( laser_maze.player_position)
-  end
-
   def test_south_wall_hit_condition
     lines = ["5 6", "4 1 S"]
     laser_maze = Laser.new(lines)
@@ -206,17 +199,18 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     assert_equal 3, laser_maze.distance_traveled
   end
 
-  def test_full
-    laser_maze = Laser.new(LINES)
-    laser_maze.fire
-    assert_equal 9, laser_maze.distance_traveled
-  end
+
+  # def test_full
+  #   laser_maze = Laser.new(LINES)
+  #   laser_maze.fire
+  #   assert_equal 9, laser_maze.distance_traveled
+  # end
 
   def test_player_position_after_move
     lines = ["5 6", "3 0 N", "3 2 /"]
      laser_maze = Laser.new(lines)
      laser_maze.fire
-     assert_equal 0, laser_maze.player_position.x
-    assert_equal 0, laser_maze.player_position.y
+     assert_equal 4, laser_maze.player_position.x
+    assert_equal 2, laser_maze.player_position.y
   end
 end
