@@ -67,8 +67,8 @@
       grid.double_array[x][y] == direction
     end
 
-    def not_mirror?(str)
-      !(str == MIRROR_FORWARD || str == MIRROR_BACK)
+    def is_mirror?(str)
+      (str == MIRROR_FORWARD || str == MIRROR_BACK)
     end
 
     def to_s
@@ -93,39 +93,61 @@
     end
 
     private
-      def moving_in_south(x, y)
-        y > 0 && not_mirror?(grid.double_array[x][y])
-      end
+
+    # DELTA = {
+    #   SOUTH: {x: 0, y: -1},
+    #   NORTH: {x: 0, y: 1},
+    # }
 
     def move_south(x, y)
-      while(moving_in_south(x, y)) do
+      while(y > 0 && !is_mirror?(grid.double_array[x][y])) do
+        self.grid.double_array[x][y] = SOUTH
         y -= 1
         self.distance_traveled += 1
-        self.grid.double_array[x][y] = SOUTH
+      end
+      if(grid.double_array[x][y] == MIRROR_BACK)
+        move_direction(EAST)
+      elsif(grid.double_array[x][y] == MIRROR_FORWARD)
+        move_direction(WEST)
       end
     end
 
     def move_north(x, y)
-      while(y < (grid.rows - 1) && not_mirror?(grid.double_array[x][y])) do
+      while(y < (grid.rows - 1) && !is_mirror?(grid.double_array[x][y])) do
+        self.grid.double_array[x][y] = NORTH
         y += 1
         self.distance_traveled += 1
-        self.grid.double_array[x][y] = NORTH
+      end
+      if(grid.double_array[x][y] == MIRROR_FORWARD)
+        move_direction(EAST)
+      elsif(grid.double_array[x][y] == MIRROR_BACK)
+        move_direction(WEST)
       end
     end
 
     def move_west(x, y)
-      while(x > 0 && not_mirror?(grid.double_array[x][y])) do
+      while(x > 0 && !is_mirror?(grid.double_array[x][y])) do
+        self.grid.double_array[x][y] = WEST
         x -= 1
         self.distance_traveled += 1
-        self.grid.double_array[x][y] = WEST
+      end
+      if(grid.double_array[x][y] == MIRROR_BACK)
+        move_direction(NORTH)
+      elsif(grid.double_array[x][y] == MIRROR_FORWARD)
+        move_direction(SOUTH)
       end
     end
 
     def move_east(x, y)
-      while(x < (grid.cols - 1) && not_mirror?(grid.double_array[x][y])) do
+      while(x < (grid.cols - 1) && !is_mirror?(grid.double_array[x][y])) do
+        self.grid.double_array[x][y] = EAST
         x += 1
         self.distance_traveled += 1
-        self.grid.double_array[x][y] = EAST
+      end
+      if(grid.double_array[x][y] == MIRROR_FORWARD)
+        move_direction(NORTH)
+      elsif(grid.double_array[x][y] == MIRROR_BACK)
+        move_direction(SOUTH)
       end
     end
 

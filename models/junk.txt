@@ -80,3 +80,7 @@
       return 'S' if(str == '/' && direction == 'W')
       return 'N' if(str == '/' && direction == 'E')
     end
+
+          def moving_in_south(x, y)
+            y > 0 && !is_mirror?(grid.double_array[x][y])
+          end
