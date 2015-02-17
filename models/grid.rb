@@ -6,6 +6,7 @@ class Grid
   def initialize(arr)
     self.cols = arr[0]
     self.rows = arr[1]
+    # TODO: Change name
     self.double_array  = Array.new(cols) {Array.new(rows, '-')}
   end
 

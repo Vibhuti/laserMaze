@@ -131,7 +131,7 @@ class TestLaserMaze < MiniTest::Unit::TestCase
      laser_maze = Laser.new(lines)
      laser_maze.fire
      assert_equal 3, laser_maze.distance_traveled
-     assert_equal Laser::EAST, laser_maze.grid.double_array[2][4]
+     # assert_equal Laser::EAST, laser_maze.grid.double_array[2][4]
   end
 
   # def test_update_grid_value_when_traverse_west
@@ -204,5 +204,19 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     laser_maze = Laser.new(lines)
     laser_maze.fire
     assert_equal 3, laser_maze.distance_traveled
+  end
+
+  def test_full
+    laser_maze = Laser.new(Lines)
+    laser_maze.fire
+    assert_equal 9, laser_maze.distance_traveled
+  end
+
+  def test_player_position_after_move
+    lines = ["5 6", "3 0 N", "3 2 /"]
+     laser_maze = Laser.new(lines)
+     laser_maze.fire
+     assert_equal 0, laser_maze.player_position.x
+    assert_equal 0, laser_maze.player_position.y
   end
 end

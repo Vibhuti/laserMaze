@@ -49,21 +49,21 @@
     end
 
     def fire
-      move_direction(self.starting_direction)
+      move_direction(self.starting_direction) if (exit_condition(player_position))
     end
 
     def exit_condition(player_position)
       x = player_position.x
       y = player_position.y
       direction = player_position.direction
-      isWall?(x, y) || isLoop?(x, y, direction)
+      is_wall?(x, y) || is_loop?(x, y, direction)
     end
 
-    def isWall?(x, y)
+    def is_wall?(x, y)
       x == 0 || y == 0 || x == grid.cols || y == grid.rows
     end
 
-    def isLoop?(x, y, direction)
+    def is_loop?(x, y, direction)
       grid.double_array[x][y] == direction
     end
 
@@ -78,6 +78,8 @@
     def move_direction(direction)
       x = player_position.x
       y = player_position.y
+
+      puts "x: #{x} and y: #{y} and #{direction}: #{distance_traveled}"
       case direction
         when SOUTH
           move_south(x, y)
@@ -101,10 +103,11 @@
 
     def move_south(x, y)
       while(y > 0 && !is_mirror?(grid.double_array[x][y])) do
-        self.grid.double_array[x][y] = SOUTH
+        # self.grid.double_array[x][y] = SOUTH
         y -= 1
         self.distance_traveled += 1
       end
+      # self.player_position.y = y
       if(grid.double_array[x][y] == MIRROR_BACK)
         move_direction(EAST)
       elsif(grid.double_array[x][y] == MIRROR_FORWARD)
@@ -114,10 +117,11 @@
 
     def move_north(x, y)
       while(y < (grid.rows - 1) && !is_mirror?(grid.double_array[x][y])) do
-        self.grid.double_array[x][y] = NORTH
+        # self.grid.double_array[x][y] = NORTH
         y += 1
         self.distance_traveled += 1
       end
+      # self.player_position.y = y
       if(grid.double_array[x][y] == MIRROR_FORWARD)
         move_direction(EAST)
       elsif(grid.double_array[x][y] == MIRROR_BACK)
@@ -127,10 +131,11 @@
 
     def move_west(x, y)
       while(x > 0 && !is_mirror?(grid.double_array[x][y])) do
-        self.grid.double_array[x][y] = WEST
+        # self.grid.double_array[x][y] = WEST
         x -= 1
         self.distance_traveled += 1
       end
+      # self.player_position.x = x
       if(grid.double_array[x][y] == MIRROR_BACK)
         move_direction(NORTH)
       elsif(grid.double_array[x][y] == MIRROR_FORWARD)
@@ -140,10 +145,11 @@
 
     def move_east(x, y)
       while(x < (grid.cols - 1) && !is_mirror?(grid.double_array[x][y])) do
-        self.grid.double_array[x][y] = EAST
+        # self.grid.double_array[x][y] = EAST
         x += 1
         self.distance_traveled += 1
       end
+      # self.player_position.x = x
       if(grid.double_array[x][y] == MIRROR_FORWARD)
         move_direction(NORTH)
       elsif(grid.double_array[x][y] == MIRROR_BACK)

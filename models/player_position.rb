@@ -11,4 +11,9 @@ class PlayerPosition
   def to_s
     "Player position x coordinate = #{self.x} and y coordinate = #{self.y} and direction #{self.direction}"
   end
+
+  def set_player_position(x, y)
+    self.x = x
+    self.y = y
+  end
 end
