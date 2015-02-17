@@ -14,4 +14,8 @@ class Grid
     "Grid columns= #{cols} and grid rows = #{rows}\n double array: #{double_array}"
   end
 
+
+  def value(x, y)
+    double_array[x][y]
+  end
 end
