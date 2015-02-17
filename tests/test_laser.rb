@@ -5,25 +5,25 @@ require '../models/player_position'
 
 
 class TestLaserMaze < MiniTest::Unit::TestCase
-  Lines = ["5 6", "1 4 S", "3 4 /", "3 0 /", "1 2 \\", "3 2 \\", "4 3 \\"]
+  LINES = ["5 6", "1 4 S", "3 4 /", "3 0 /", "1 2 \\", "3 2 \\", "4 3 \\"]
 
   def setup
   end
 
   # Tests for initial setup before fire the event
   def test_grid_size
-    laser_maze = Laser.new(Lines)
+    laser_maze = Laser.new(LINES)
     assert_equal 5,  laser_maze.grid.cols
     assert_equal 6,  laser_maze.grid.rows
   end
 
   def test_grid_initialization_with_dash
-    laser_maze = Laser.new(Lines)
+    laser_maze = Laser.new(LINES)
     assert_equal '-',  laser_maze.grid.double_array[0][1]
   end
 
   def test_change_grid_value_with_starting_direction
-    laser_maze = Laser.new(Lines)
+    laser_maze = Laser.new(LINES)
     assert_equal 'S',  laser_maze.grid.double_array[1][4]
   end
 
@@ -34,13 +34,13 @@ class TestLaserMaze < MiniTest::Unit::TestCase
   end
 
   def test_other_inputs_and_grid_values
-    laser_maze = Laser.new(Lines)
+    laser_maze = Laser.new(LINES)
     assert_equal '/',  laser_maze.grid.double_array[3][4]
     assert_equal '\\',  laser_maze.grid.double_array[1][2]
   end
 
   def test_player_position_when_game_start
-    laser_maze = Laser.new(Lines)
+    laser_maze = Laser.new(LINES)
     assert_equal 1,  laser_maze.player_position.x
     assert_equal 4,  laser_maze.player_position.y
   end
@@ -55,7 +55,7 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     # Tests for boundary condition and wall hit conditions
 
   def test_exit_condition
-    laser_maze = Laser.new(Lines)
+    laser_maze = Laser.new(LINES)
      laser_maze.player_position.x = 0
     laser_maze.fire
     assert_equal true,  laser_maze.exit_condition( laser_maze.player_position)
@@ -145,7 +145,7 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     # tests for changing direction when mirror comes
 
   def test_is_mirror_function
-    laser_maze = Laser.new(Lines)
+    laser_maze = Laser.new(LINES)
     assert_equal true, laser_maze.is_mirror?(Laser::MIRROR_FORWARD)
     assert_equal true, laser_maze.is_mirror?(Laser::MIRROR_BACK)
   end
@@ -207,7 +207,7 @@ class TestLaserMaze < MiniTest::Unit::TestCase
   end
 
   def test_full
-    laser_maze = Laser.new(Lines)
+    laser_maze = Laser.new(LINES)
     laser_maze.fire
     assert_equal 9, laser_maze.distance_traveled
   end
