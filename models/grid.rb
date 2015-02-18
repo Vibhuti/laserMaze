@@ -11,7 +11,7 @@ class Grid
   end
 
   def to_s
-    "Grid columns= #{cols} and grid rows = #{rows}\n double array: #{double_array}"
+    "Grid columns= #{cols} and grid rows = #{rows}\n double array: \n#{double_array}\n"
   end
 
   def value(x, y)

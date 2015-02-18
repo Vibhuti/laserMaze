@@ -34,7 +34,7 @@
     end
 
     def to_s
-      "#{grid} and #{player_position} \n"
+      "#{grid} and #{player_position}, direction traveled #{distance_traveled}\n"
     end
 
     def move_direction(x, y, direction)
@@ -155,7 +155,7 @@
       x = player_position.x
       y = player_position.y
       direction = player_position.direction
-      is_wall?(x, y) || is_loop?(x, y, direction)
+      is_wall?(x, y, direction) || is_loop?(x, y, direction)
 
     end
 

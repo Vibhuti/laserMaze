@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require '../models/laser'
 require '../models/grid'
 require '../models/player_position'
-
+require 'pp'
 
 class TestLaserMaze < MiniTest::Unit::TestCase
   LINES = ["5 6", "1 4 S", "3 4 /", "3 0 /", "1 2 \\", "3 2 \\", "4 3 \\"]
@@ -205,11 +205,17 @@ class TestLaserMaze < MiniTest::Unit::TestCase
   #   assert_equal 9, laser_maze.distance_traveled
   # end
 
-  def test_player_position_after_move
-    lines = ["5 6", "3 0 N", "3 2 /"]
-     laser_maze = Laser.new(lines)
-     laser_maze.fire
-     assert_equal 4, laser_maze.player_position.x
-    assert_equal 2, laser_maze.player_position.y
+  # def test_player_position_after_move
+  #   lines = ["5 6", "3 0 N", "3 2 /"]
+  #    laser_maze = Laser.new(lines)
+  #    laser_maze.fire
+  #    assert_equal 4, laser_maze.player_position.x
+  #   assert_equal 2, laser_maze.player_position.y
+  # end
+
+  def test_laser_object
+    laser_maze = Laser.new(LINES)
+    laser_maze.fire
+    puts laser_maze.grid.to_s
   end
 end
