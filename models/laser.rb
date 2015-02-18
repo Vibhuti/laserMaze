@@ -36,10 +36,6 @@ private
     end
   end
 
-# If there is no mirror then player position direction will remain same and will keep moving until wall comes.
-# But if any mirror come then we need to set new direction to the player position.
-# if wall comes then it
-
   def moving_condition
     case player_position.direction
       when SOUTH
@@ -49,6 +45,7 @@ private
       when EAST
         player_position.x += 1
       when WEST
+        player_position.x -= 1
       else
     end
   end
@@ -57,6 +54,7 @@ private
     while(!wall? && !mirror?)
       moving_condition
       increase_distance
+      grid.update_cell(player_position.get_values)
     end
     if wall?
       return
@@ -77,7 +75,6 @@ private
       when NORTH
         y == grid.rows - 1
       when EAST
-        puts "i came here"
         x == grid.cols - 1
       when WEST
         x == 0

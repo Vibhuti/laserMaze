@@ -16,4 +16,8 @@ class PlayerPosition
     self.x = x
     self.y = y
   end
+
+  def get_values
+    return [x, y, direction]
+  end
 end

@@ -83,53 +83,52 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     lines = ["5 6", "1 4 E"]
     laser_maze = Laser.new(lines)
     laser_maze.fire
-    puts laser_maze.player_position
     assert_equal 3, laser_maze.distance_traveled
   end
-  #
-  # def test_move_south_wall_hit_condition
-  #   lines = ["5 6", "1 1 S"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 1, laser_maze.distance_traveled
-  # end
-  #
-  # def test_move_east_for_boundary_condition
-  #   lines = ["5 6", "4 3 E"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 0, laser_maze.distance_traveled
-  # end
-  #
-  # def test_move_west_boundary_condition
-  #   lines = ["5 6", "0 4 W"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 0, laser_maze.distance_traveled
-  # end
-  #
-  # def test_move_south_for_boundary_condition
-  #   lines = ["5 6", "2 0 S"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 0, laser_maze.distance_traveled
-  # end
-  # #
-  # # def test_update_grid_value_when_traverse_south
-  # #   lines = ["5 6", "1 1 S"]
-  # #   laser_maze = Laser.new(lines)
-  # #   laser_maze.fire
-  # #   assert_equal 1, laser_maze.distance_traveled
-  # #   assert_equal Laser::SOUTH, laser_maze.grid.double_array[1][0]
-  # # end
-  #
-  # # def test_update_grid_value_when_traverse_north
-  # #    lines = ["5 6", "4 4 N"]
-  # #    laser_maze = Laser.new(lines)
-  # #    laser_maze.fire
-  # #    assert_equal 1,  laser_maze.distance_traveled
-  # #    assert_equal Laser::NORTH, laser_maze.grid.double_array[4][5]
-  # # end
+
+  def test_move_west_wall_hit_condition
+    lines = ["5 6", "1 1 W"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 1, laser_maze.distance_traveled
+  end
+
+  def test_move_east_for_boundary_condition
+    lines = ["5 6", "4 3 E"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 0, laser_maze.distance_traveled
+  end
+
+  def test_move_west_boundary_condition
+    lines = ["5 6", "0 4 W"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 0, laser_maze.distance_traveled
+  end
+
+  def test_move_south_for_boundary_condition
+    lines = ["5 6", "2 0 S"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 0, laser_maze.distance_traveled
+  end
+
+  def test_update_grid_value_when_traverse_south
+    lines = ["5 6", "1 1 S"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 1, laser_maze.distance_traveled
+    assert_equal Laser::SOUTH, laser_maze.grid.get_value(1, 0)
+  end
+  
+  def test_update_grid_value_when_traverse_north
+     lines = ["5 6", "4 4 N"]
+     laser_maze = Laser.new(lines)
+     laser_maze.fire
+     assert_equal 1,  laser_maze.distance_traveled
+     assert_equal Laser::NORTH, laser_maze.grid.double_array[4][5]
+  end
   #
   # def test_update_grid_value_when_traverse_east
   #    lines = ["5 6", "1 4 E"]
