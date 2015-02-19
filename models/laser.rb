@@ -54,18 +54,15 @@ private
     while !wall? && !mirror?
       moving_condition
       increase_distance
-      puts "distance_traveled: #{distance_traveled} "
-      puts player_position
-      puts grid
     end
+
     if mirror?
       direction_update
       grid.update_cell(player_position.get_values)
       move
     end
-    if wall?
-      return
-    end
+
+    return if wall?
   end
 
   def wall?
@@ -97,14 +94,13 @@ private
   def direction_update
     str = grid.get_value(player_position.x, player_position.y)
     direction = player_position.direction
-    player_position.direction = EAST if(str == MIRROR_BACK && direction == SOUTH)
-    player_position.direction = SOUTH if(str == MIRROR_BACK && direction == EAST)
-    player_position.direction = WEST if(str == MIRROR_BACK && direction == NORTH)
-    player_position.direction = NORTH if(str == MIRROR_BACK && direction == WEST)
-    player_position.direction = EAST if(str == MIRROR_FORWARD && direction == NORTH)
-    player_position.direction = WEST if(str == MIRROR_FORWARD && direction == SOUTH)
-    player_position.direction = SOUTH if(str == MIRROR_FORWARD && direction == WEST)
-    player_position.direction = NORTH if(str == MIRROR_FORWARD && direction == EAST)
+    player_position.direction = EAST if (str == MIRROR_BACK && direction == SOUTH)
+    player_position.direction = SOUTH if (str == MIRROR_BACK && direction == EAST)
+    player_position.direction = WEST if (str == MIRROR_BACK && direction == NORTH)
+    player_position.direction = NORTH if (str == MIRROR_BACK && direction == WEST)
+    player_position.direction = EAST if (str == MIRROR_FORWARD && direction == NORTH)
+    player_position.direction = WEST if (str == MIRROR_FORWARD && direction == SOUTH)
+    player_position.direction = SOUTH if (str == MIRROR_FORWARD && direction == WEST)
+    player_position.direction = NORTH if (str == MIRROR_FORWARD && direction == EAST)
   end
-
 end

@@ -28,5 +28,4 @@ class Grid
       update_cell(values)
     end
   end
-
 end
