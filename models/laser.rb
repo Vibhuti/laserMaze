@@ -51,17 +51,20 @@ private
   end
 
   def move
-    while(!wall? && !mirror?)
+    while !wall? && !mirror?
       moving_condition
       increase_distance
-      grid.update_cell(player_position.get_values)
-    end
-    if wall?
-      return
+      puts "distance_traveled: #{distance_traveled} "
+      puts player_position
+      puts grid
     end
     if mirror?
       direction_update
+      grid.update_cell(player_position.get_values)
       move
+    end
+    if wall?
+      return
     end
   end
 
@@ -84,7 +87,7 @@ private
 
   def mirror?
     value = grid.get_value(player_position.x, player_position.y)
-    value == '/' || value == '\\'
+    value == '/' || value == "\\"
   end
 
   def increase_distance
@@ -92,7 +95,7 @@ private
   end
 
   def direction_update
-    str = grid.value(player_position.x, player_position.y)
+    str = grid.get_value(player_position.x, player_position.y)
     direction = player_position.direction
     player_position.direction = EAST if(str == MIRROR_BACK && direction == SOUTH)
     player_position.direction = SOUTH if(str == MIRROR_BACK && direction == EAST)

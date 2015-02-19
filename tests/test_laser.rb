@@ -121,45 +121,42 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     assert_equal 1, laser_maze.distance_traveled
     assert_equal Laser::SOUTH, laser_maze.grid.get_value(1, 0)
   end
-  
+
   def test_update_grid_value_when_traverse_north
      lines = ["5 6", "4 4 N"]
      laser_maze = Laser.new(lines)
      laser_maze.fire
      assert_equal 1,  laser_maze.distance_traveled
-     assert_equal Laser::NORTH, laser_maze.grid.double_array[4][5]
+     assert_equal Laser::NORTH, laser_maze.grid.get_value(4, 5)
   end
-  #
-  # def test_update_grid_value_when_traverse_east
-  #    lines = ["5 6", "1 4 E"]
-  #    laser_maze = Laser1.new(lines)
-  #    laser_maze.fire
-  #    assert_equal 3, laser_maze.distance_traveled
-  #    # assert_equal Laser::EAST, laser_maze.grid.double_array[2][4]
-  # end
-  #
-  # # def test_update_grid_value_when_traverse_west
-  # #   lines = ["5 6", "1 3 W"]
-  # #   laser_maze = Laser.new(lines)
-  # #   laser_maze.fire
-  # #   assert_equal 1, laser_maze.distance_traveled
-  # #   assert_equal Laser::WEST, laser_maze.grid.double_array[0][3]
-  # # end
-  #
-  #   # tests for changing direction when mirror comes
-  #
-  # def test_is_mirror_function
-  #   laser_maze = Laser1.new(LINES)
-  #   assert_equal true, laser_maze.is_mirror?(Laser1::MIRROR_FORWARD)
-  #   assert_equal true, laser_maze.is_mirror?(Laser1::MIRROR_BACK)
-  # end
-  #
-  # def test_back_slash_move_west_to_east
-  #   lines = ["5 6", "1 4 S", "1 2 \\"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 5, laser_maze.distance_traveled
-  # end
+
+  def test_update_grid_value_when_traverse_east
+     lines = ["5 6", "1 4 E"]
+     laser_maze = Laser.new(lines)
+     laser_maze.fire
+     assert_equal 3, laser_maze.distance_traveled
+     assert_equal Laser::EAST, laser_maze.grid.get_value(2, 4)
+  end
+
+  def test_update_grid_value_when_traverse_west
+    lines = ["5 6", "1 3 W"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 1, laser_maze.distance_traveled
+    assert_equal Laser::WEST, laser_maze.grid.get_value(0, 3)
+  end
+
+    # tests for changing direction when mirror comes
+
+  def test_back_slash_move_west_to_east
+    lines = ["5 6", "1 4 S", "1 2 \\"]
+    laser_maze = Laser.new(lines)
+    puts laser_maze.grid
+    laser_maze.fire
+    puts laser_maze.player_position.direction
+    puts laser_maze.grid
+    assert_equal 5, laser_maze.distance_traveled
+  end
   #
   # def test_forward_slash_move_south_to_west
   #   lines = ["5 6", "1 4 S", "1 2 /"]
@@ -209,13 +206,13 @@ class TestLaserMaze < MiniTest::Unit::TestCase
   #   laser_maze.fire
   #   assert_equal 3, laser_maze.distance_traveled
   # end
-  #
-  # # def test_full
-  # #   laser_maze = Laser.new(LINES)
-  # #   laser_maze.fire
-  # #   assert_equal 9, laser_maze.distance_traveled
-  # # end
-  #
+
+  def test_full
+    laser_maze = Laser.new(LINES)
+    laser_maze.fire
+    assert_equal 9, laser_maze.distance_traveled
+  end
+
   # def test_player_position_after_move
   #   lines = ["5 6", "3 0 N", "3 2 /"]
   #    laser_maze = Laser1.new(lines)
