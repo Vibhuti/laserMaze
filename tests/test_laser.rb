@@ -157,75 +157,83 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     puts laser_maze.grid
     assert_equal 5, laser_maze.distance_traveled
   end
-  #
-  # def test_forward_slash_move_south_to_west
-  #   lines = ["5 6", "1 4 S", "1 2 /"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 3, laser_maze.distance_traveled
-  # end
-  #
-  # def test_forward_slash_move_east_to_north
-  #   lines = ["5 6", "0 4 E", "3 4 /"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 4, laser_maze.distance_traveled
-  # end
-  #
-  # def test_back_slash_move_east_to_north
-  #   lines = ["5 6", "0 4 E", "3 4 \\"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 7, laser_maze.distance_traveled
-  # end
-  #
-  # def test_forward_slash_move_west_to_north
-  #   lines = ["5 6", "4 4 W", "3 4 /"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 5, laser_maze.distance_traveled
-  # end
-  #
-  # def test_back_slash_move_west_to_south
-  #   lines = ["5 6", "4 4 W", "3 4 \\"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 2, laser_maze.distance_traveled
-  # end
-  #
-  # def test_forward_slash_move_north_to_west
-  #   lines = ["5 6", "3 0 N", "3 2 \\"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 5, laser_maze.distance_traveled
-  # end
-  #
-  # def test_back_slash_move_north_to_east
-  #   lines = ["5 6", "3 0 N", "3 2 /"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   assert_equal 3, laser_maze.distance_traveled
-  # end
+
+  def test_forward_slash_move_south_to_west
+    lines = ["5 6", "1 4 S", "1 2 /"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 3, laser_maze.distance_traveled
+  end
+
+  def test_forward_slash_move_east_to_north
+    lines = ["5 6", "0 4 E", "3 4 /"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 4, laser_maze.distance_traveled
+  end
+
+  def test_back_slash_move_east_to_north
+    lines = ["5 6", "0 4 E", "3 4 \\"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 7, laser_maze.distance_traveled
+  end
+
+  def test_forward_slash_move_west_to_north
+    lines = ["5 6", "4 4 W", "3 4 /"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 5, laser_maze.distance_traveled
+  end
+
+  def test_back_slash_move_west_to_south
+    lines = ["5 6", "4 4 W", "3 4 \\"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 2, laser_maze.distance_traveled
+  end
+
+  def test_forward_slash_move_north_to_west
+    lines = ["5 6", "3 0 N", "3 2 \\"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 5, laser_maze.distance_traveled
+  end
+
+  def test_back_slash_move_north_to_east
+    lines = ["5 6", "3 0 N", "3 2 /"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    assert_equal 3, laser_maze.distance_traveled
+  end
 
   def test_full
     laser_maze = Laser.new(LINES)
     laser_maze.fire
+    assert_equal '//', laser_maze.grid.get_value(3, 0)
     assert_equal 9, laser_maze.distance_traveled
   end
 
-  # def test_player_position_after_move
-  #   lines = ["5 6", "3 0 N", "3 2 /"]
-  #    laser_maze = Laser1.new(lines)
-  #    laser_maze.fire
-  #   pp laser_maze.grid
-  #    assert_equal 4, laser_maze.player_position.x
-  #   assert_equal 2, laser_maze.player_position.y
-  # end
-  #
-  # def test_out
-  #   lines = ["5 6", "3 0 N", "3 2 /"]
-  #   laser_maze = Laser1.new(lines)
-  #   laser_maze.fire
-  #   puts laser_maze
-  # end
+  def test_player_position_after_move
+    lines = ["5 6", "3 0 N", "3 2 /"]
+     laser_maze = Laser.new(lines)
+     laser_maze.fire
+    pp laser_maze.grid
+     assert_equal 4, laser_maze.player_position.x
+    assert_equal 2, laser_maze.player_position.y
+  end
+
+  def test_out
+    lines = ["5 6", "3 0 N", "3 2 /"]
+    laser_maze = Laser.new(lines)
+    laser_maze.fire
+    puts laser_maze
+  end
+
+  def test_mirror_at_wall
+    laser_maze = Laser.new(LINES)
+    laser_maze.fire
+    assert_equal '//', laser_maze.grid.get_value(3, 0)
+    assert_equal 9, laser_maze.distance_traveled
+  end
 end
