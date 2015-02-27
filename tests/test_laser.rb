@@ -1,7 +1,7 @@
 require 'minitest/autorun'
-require '../models/laser'
-require '../models/grid'
-require '../models/player_position'
+require_relative '../models/laser'
+require_relative '../models/grid'
+require_relative '../models/player_position'
 require 'pp'
 
 class TestLaserMaze < MiniTest::Unit::TestCase
@@ -17,18 +17,6 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     laser_maze = Laser.new(lines)
     assert_equal 5,  laser_maze.grid.cols
     assert_equal 6,  laser_maze.grid.rows
-  end
-
-  def test_grid_initialization_with_dash
-    lines = ["5 6", "1 4 S"]
-    laser_maze = Laser.new(lines)
-    assert_equal '-',  laser_maze.grid.cells[0][1]
-  end
-
-  def test_change_grid_value_with_starting_direction
-    lines = ["5 6", "1 4 S"]
-    laser_maze = Laser.new(lines)
-    assert_equal 'S',  laser_maze.grid.cells[1][4]
   end
 
   def test_distance_travel_zero_when_player_starts
@@ -114,38 +102,6 @@ class TestLaserMaze < MiniTest::Unit::TestCase
     assert_equal 0, laser_maze.distance_traveled
   end
 
-  def test_update_grid_value_when_traverse_south
-    lines = ["5 6", "1 1 S"]
-    laser_maze = Laser.new(lines)
-    laser_maze.fire
-    assert_equal 1, laser_maze.distance_traveled
-    assert_equal Laser::SOUTH, laser_maze.grid.get_value(1, 0)
-  end
-
-  def test_update_grid_value_when_traverse_north
-     lines = ["5 6", "4 4 N"]
-     laser_maze = Laser.new(lines)
-     laser_maze.fire
-     assert_equal 1,  laser_maze.distance_traveled
-     assert_equal Laser::NORTH, laser_maze.grid.get_value(4, 5)
-  end
-
-  def test_update_grid_value_when_traverse_east
-     lines = ["5 6", "1 4 E"]
-     laser_maze = Laser.new(lines)
-     laser_maze.fire
-     assert_equal 3, laser_maze.distance_traveled
-     assert_equal Laser::EAST, laser_maze.grid.get_value(2, 4)
-  end
-
-  def test_update_grid_value_when_traverse_west
-    lines = ["5 6", "1 3 W"]
-    laser_maze = Laser.new(lines)
-    laser_maze.fire
-    assert_equal 1, laser_maze.distance_traveled
-    assert_equal Laser::WEST, laser_maze.grid.get_value(0, 3)
-  end
-
     # tests for changing direction when mirror comes
 
   def test_back_slash_move_west_to_east
@@ -210,7 +166,7 @@ class TestLaserMaze < MiniTest::Unit::TestCase
   def test_full
     laser_maze = Laser.new(LINES)
     laser_maze.fire
-    assert_equal '//', laser_maze.grid.get_value(3, 0)
+    # assert_equal '//', laser_maze.grid.get_value(3, 0)
     assert_equal 9, laser_maze.distance_traveled
   end
 
@@ -233,7 +189,47 @@ class TestLaserMaze < MiniTest::Unit::TestCase
   def test_mirror_at_wall
     laser_maze = Laser.new(LINES)
     laser_maze.fire
-    assert_equal '//', laser_maze.grid.get_value(3, 0)
+    # assert_equal '//', laser_maze.grid.get_value(3, 0)
     assert_equal 9, laser_maze.distance_traveled
   end
+
+  def test_grid_initialization_with_dash
+    lines = ["5 6", "1 4 S"]
+    laser_maze = Laser.new(lines)
+    assert_equal '-',  laser_maze.grid.cells[0][1]
+  end
+
+  #
+  # def test_update_grid_value_when_traverse_north
+  #    lines = ["5 6", "4 4 N"]
+  #    laser_maze = Laser.new(lines)
+  #    laser_maze.fire
+  #    assert_equal 1,  laser_maze.distance_traveled
+  #    assert_equal Laser::NORTH, laser_maze.grid.get_value(4, 5)
+  # end
+  #
+  # def test_update_grid_value_when_traverse_south
+  #   lines = ["5 6", "1 1 S"]
+  #   laser_maze = Laser.new(lines)
+  #   laser_maze.fire
+  #   assert_equal 1, laser_maze.distance_traveled
+  #   assert_equal Laser::SOUTH, laser_maze.grid.get_value(1, 0)
+  # end
+  #
+  # def test_update_grid_value_when_traverse_west
+  #   lines = ["5 6", "1 3 W"]
+  #   laser_maze = Laser.new(lines)
+  #   laser_maze.fire
+  #   assert_equal 1, laser_maze.distance_traveled
+  #   assert_equal Laser::WEST, laser_maze.grid.get_value(0, 3)
+  # end
+  #
+  # def test_update_grid_value_when_traverse_east
+  #    lines = ["5 6", "1 4 E"]
+  #    laser_maze = Laser.new(lines)
+  #    laser_maze.fire
+  #    assert_equal 3, laser_maze.distance_traveled
+  #    assert_equal Laser::EAST, laser_maze.grid.get_value(2, 4)
+  # end
+
 end

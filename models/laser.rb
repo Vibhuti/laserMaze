@@ -6,6 +6,18 @@ class Laser
   MIRROR_FORWARD = '/'
   MIRROR_BACK = '\\'
 
+  HASH = {'N' => 'NORTH', 'S' => 'SOUTH', 'E' => 'EAST', 'W' => 'WEST', '/' => 'MIRROR_FORWARD', '\\' => 'MIRROR_BACK'}
+
+  DECISION_HASH = { 'MIRROR_BACK_SOUTH' => EAST,
+                    'MIRROR_BACK_EAST' => SOUTH,
+                    'MIRROR_BACK_NORTH' => WEST,
+                    'MIRROR_BACK_WEST' => NORTH,
+                    'MIRROR_FORWARD_NORTH' => EAST,
+                    'MIRROR_FORWARD_SOUTH' => WEST,
+                    'MIRROR_FORWARD_WEST' => SOUTH,
+                    'MIRROR_FORWARD_EAST' => NORTH
+                  }
+
   attr_accessor :grid, :player_position, :distance_traveled, :new_direction
 
   def initialize(lines)
@@ -94,13 +106,13 @@ private
   def direction_update
     str = grid.get_value(player_position.x, player_position.y)
     direction = player_position.direction
-    player_position.direction = EAST if (str == MIRROR_BACK && direction == SOUTH)
-    player_position.direction = SOUTH if (str == MIRROR_BACK && direction == EAST)
-    player_position.direction = WEST if (str == MIRROR_BACK && direction == NORTH)
-    player_position.direction = NORTH if (str == MIRROR_BACK && direction == WEST)
-    player_position.direction = EAST if (str == MIRROR_FORWARD && direction == NORTH)
-    player_position.direction = WEST if (str == MIRROR_FORWARD && direction == SOUTH)
-    player_position.direction = SOUTH if (str == MIRROR_FORWARD && direction == WEST)
-    player_position.direction = NORTH if (str == MIRROR_FORWARD && direction == EAST)
+    combind_str = "#{HASH[str]}_#{HASH[direction]}"
+    new_direction combind_str
   end
+
+
+  def new_direction combind_str
+    player_position.direction = DECISION_HASH[combind_str]
+  end
+
 end
